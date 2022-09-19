@@ -14,7 +14,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post("registro-paciente", [SanctumAuthController::class, "registropaciente"]);
+Route::post("registro", [SanctumAuthController::class, "registropaciente"]);
 Route::post("login", [SanctumAuthController::class, "login"]);
 Route::get("perfil/{name_user}", [SanctumAuthController::class, "perfil"]);
 Route::put("actualizar-usuario/{name_user}", [SanctumAuthController::class, "updateUser"]);

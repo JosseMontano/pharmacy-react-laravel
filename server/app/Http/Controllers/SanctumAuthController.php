@@ -33,12 +33,6 @@ class SanctumAuthController extends Controller
             ->where('last_name_person', "$request->last_name_person")
             ->first();
 
-        //guardar en la tabla paciente 		 	
-        $pacienteinsertado = DB::table('patients')
-            ->insert([
-                'id_person' => "$Idpeople->id_person",
-            ]);
-
         //insertar datos a ususario
         $usuario = $request->ci_person . $request->name_person;
         $usuario = DB::table('usuario')
