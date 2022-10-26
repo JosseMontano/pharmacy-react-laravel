@@ -4,11 +4,14 @@ import { getProduct } from "../services/product";
 import { ProductContext } from "../context/products/productContext";
 import { Types } from "../context/products/productReducer";
 import ProductType from "../interfaces/product";
-
+import { useNavigate } from "react-router-dom";
 const IndexUser = () => {
   const [data, setData] = useState<IProduct[]>([]);
   const { state, dispatch } = useContext(ProductContext);
   const [form, setForm] = useState({} as ProductType);
+
+  const navigate = useNavigate();
+
   const getData = async () => {
     const res = await getProduct();
     setData(res);
@@ -69,7 +72,7 @@ const IndexUser = () => {
             dispatch({
               type: Types.Create,
               payload: {
-                id: 1,
+                id_product: 1,
                 amount_product: form.amount_product,
                 description_product: form.description_product,
                 name_product: form.name_product,
@@ -80,7 +83,7 @@ const IndexUser = () => {
         >
           Guardar datos
         </button>
-        {state.shoppingCart}
+       {state.shoppingCart} 
       </form>
 
       <div>
@@ -88,10 +91,22 @@ const IndexUser = () => {
           <div key={i}>
             <span>{v.name_product}</span>
             <span>{v.description_product}</span>
-            <button>Agregar</button>
+            <button
+              onClick={() => {
+                dispatch({
+                  type: Types.Add,
+                  payload: {
+                    product: v,
+                  },
+                });
+              }}
+            >
+              Agregar
+            </button>
           </div>
         ))}
       </div>
+      <button onClick={()=>{navigate('/shopping')}}>Carrito</button>
     </>
   );
 };

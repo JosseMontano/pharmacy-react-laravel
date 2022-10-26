@@ -19,7 +19,7 @@ const initialState = {
 
 const ProductContext = createContext<{
   state: InitialStateType;
-  dispatch: React.Dispatch<ProductActions | ShoppingCartActions>;
+  dispatch: Dispatch<ProductActions | ShoppingCartActions>;
 }>({
   state: initialState,
   dispatch: () => null,

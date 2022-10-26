@@ -2,8 +2,10 @@ import ProductType from "../../interfaces/product";
 
 export enum Types {
   Create = "CREATE_PRODUCT",
-  Delete = "DELETE_PRODUCT",
   Add = "ADD_PRODUCT",
+  AddAmount = "ADD_AMOUNT",
+  Edit = "EDIT_PRODUCT",
+  Delete = "DELETE_PRODUCT",
 }
 
 type ActionMap<M extends { [index: string]: any }> = {
@@ -19,14 +21,21 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 type ProductPayload = {
   [Types.Create]: {
-    id: number;
+    id_product: number;
     name_product: string;
     description_product: string;
     price_product: number;
     amount_product: number;
   };
+  [Types.Add]: {
+    product: ProductType;
+  };
+  [Types.Edit]: {
+    id_product: number;
+    product: ProductType;
+  };
   [Types.Delete]: {
-    id: number;
+    id_product: number;
   };
 };
 
@@ -38,26 +47,28 @@ export const productReducer = (
   action: ProductActions | ShoppingCartActions
 ) => {
   switch (action.type) {
-    case Types.Create:
-      return [
-        ...state,
-        {
-          id: action.payload.id,
-          name_product: action.payload.name_product,
-          description_product: action.payload.description_product,
-          price_product: action.payload.price_product,
-          amount_product: action.payload.amount_product,
-        },
-      ];
+    case Types.Add:
+      return [...state, action.payload.product];
+
     case Types.Delete:
-      return [...state.filter((product) => product.id !== action.payload.id)];
+      return [
+        ...state.filter(
+          (product) => product.id_product !== action.payload.id_product
+        ),
+      ];
+
+    case Types.Edit:
+      return [
+        ...state.filter((v) => v.id_product !== action.payload.id_product),
+        action.payload.product,
+      ];
     default:
       return state;
   }
 };
 
 type ShoppingCartPayload = {
-  [Types.Add]: undefined;
+  [Types.AddAmount]: undefined;
 };
 
 export type ShoppingCartActions =
@@ -68,7 +79,7 @@ export const shoppingCartReducer = (
   action: ProductActions | ShoppingCartActions
 ) => {
   switch (action.type) {
-    case Types.Add:
+    case Types.AddAmount:
       return state + 1;
     default:
       return state;

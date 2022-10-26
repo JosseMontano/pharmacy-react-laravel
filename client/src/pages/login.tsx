@@ -24,7 +24,7 @@ function Login() {
     });
     if (res) {
       alert("usuario logeado");
-      navigate("/index");
+      navigate("/products");
       return;
     }
     alert("a ocurrido un error");
