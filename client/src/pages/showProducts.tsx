@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductContext } from "../context/products/productContext";
+import { Types } from "../context/products/productReducer";
 import IProduct from "../interfaces/product";
 import { getProduct, deleteProduct } from "../services/product";
 
@@ -29,6 +30,15 @@ const ShowProducts = () => {
     getData();
   };
 
+  const handleAddShopp = (v: IProduct) => {
+    dispatch({
+      type: Types.Add,
+      payload: {
+        product: v,
+      },
+    });
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -42,6 +52,7 @@ const ShowProducts = () => {
           <span>{v.price_product}$</span>
           <p>{v.amount_product}</p>
           <button onClick={() => handleClick(v.id_product)}>Eliminar</button>
+          <button onClick={() => handleAddShopp(v)}>Añadir carrito</button>
         </Card>
       ))}
     </Container>

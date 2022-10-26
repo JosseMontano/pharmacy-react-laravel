@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ProductContext } from "../context/products/productContext";
 import { Types } from "../context/products/productReducer";
 import ProductType from "../interfaces/product";
+import ShowProducts from "./showProducts";
 
 const Shopping = () => {
   const { state, dispatch } = useContext(ProductContext);
@@ -75,7 +76,7 @@ const Shopping = () => {
         <button onClick={(e) => editProduct(e)}>Guardar datos</button>
         {state.shoppingCart}
       </form>
-
+      <h2>Carrito</h2>
       {state.products.map((v, i) => (
         <div key={i}>
           <p>{v.id_product}</p>
@@ -97,6 +98,9 @@ const Shopping = () => {
           <br />
         </div>
       ))}
+      <hr />
+      <h2>BD</h2>
+      <ShowProducts />
     </div>
   );
 };

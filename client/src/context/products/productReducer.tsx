@@ -52,9 +52,7 @@ export const productReducer = (
 
     case Types.Delete:
       return [
-        ...state.filter(
-          (product) => product.id_product !== action.payload.id_product
-        ),
+        ...state.filter((v) => v.id_product !== action.payload.id_product),
       ];
 
     case Types.Edit:
@@ -62,6 +60,7 @@ export const productReducer = (
         ...state.filter((v) => v.id_product !== action.payload.id_product),
         action.payload.product,
       ];
+
     default:
       return state;
   }

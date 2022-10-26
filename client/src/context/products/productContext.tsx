@@ -17,10 +17,12 @@ const initialState = {
   shoppingCart: 0,
 };
 
-const ProductContext = createContext<{
+interface ContextType {
   state: InitialStateType;
   dispatch: Dispatch<ProductActions | ShoppingCartActions>;
-}>({
+}
+
+const ProductContext = createContext<ContextType>({
   state: initialState,
   dispatch: () => null,
 });
