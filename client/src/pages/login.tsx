@@ -62,8 +62,8 @@ function Login() {
         <Btn onClick={() => store()} className="btn btn-primary">
           Enviar
         </Btn>
-        <NavLink className="btn margin" to="/login">
-          Volver a login
+        <NavLink className="btn margin" to="/register">
+          Crearse una cuenta
         </NavLink>
       </ContainerSoon>
     </Container>
