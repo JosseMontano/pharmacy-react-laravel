@@ -23,19 +23,19 @@ class ProductoController extends Controller
             'amount_product' => 'required|integer'
         ]);
 
-        $nombre_imagen = '';
+      /*   $nombre_imagen = '';
         if ($file = $request->file("url_foto")) {
             $nombre_imagen = time() . "-" . $file->getClientOriginalName();
             $file->move("imagenes/products", $nombre_imagen);
             $nombre_imagen = '/imagenes/products/' . $nombre_imagen;
-        }
+        } */
 
         DB::table('products')->insert([
             'name_product' => "$request->name_product",
             'description_product' => "$request->description_product",
             'price_product' => "$request->price_product",
             'amount_product' => "$request->amount_product",
-            'url_foto' => "$nombre_imagen",
+          /*   'url_foto' => "$nombre_imagen", */
         ]);
 
         return response()->json(["mensaje" => "se guardo correctamente"], 201);
@@ -82,9 +82,10 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         //eliminar img de laravel
-        $products = DB::table('products')->where('id_product', "$id")->value('url_foto');
+        
+       /*  $products = DB::table('products')->where('id_product', "$id")->value('url_foto');
         $image_path = public_path() . $products;
-        unlink($image_path);
+        unlink($image_path); */
 
         //elimar fila de la BD
         DB::table('products')->where('id_product', '=', "$id")->delete();
