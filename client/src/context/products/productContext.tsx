@@ -1,31 +1,46 @@
-import { createContext, useReducer } from "react";
-import IProduct from "../../interfaces/product";
-import appReducer, { EActionKind } from "./appReducer";
+import { createContext, useReducer, Dispatch } from "react";
+import {
+  productReducer,
+  shoppingCartReducer,
+  ProductActions,
+  ShoppingCartActions,
+} from "./productReducer";
+import ProductType from "../../interfaces/product"; //data of the array
 
-interface child {
-  children: JSX.Element;
-}
-
-const initialState = {
-  products: [] as IProduct[],
-  addProduct: (p: IProduct) => {},
+type InitialStateType = {
+  products: ProductType[];
+  shoppingCart: number;
 };
 
-export const ProductContext = createContext(initialState);
+const initialState = {
+  products: [],
+  shoppingCart: 0,
+};
 
-export const ProductContextProvider = ({ children }: child) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+const ProductContext = createContext<{
+  state: InitialStateType;
+  dispatch: React.Dispatch<ProductActions | ShoppingCartActions>;
+}>({
+  state: initialState,
+  dispatch: () => null,
+});
 
-  const addProduct = (product: IProduct) => {
-    dispatch({
-      type: EActionKind.ADD_PRODUCT,
-      payload: product,
-    });
-  };
+const mainReducer = (
+  { products, shoppingCart }: InitialStateType,
+  action: ProductActions | ShoppingCartActions
+) => ({
+  products: productReducer(products, action),
+  shoppingCart: shoppingCartReducer(shoppingCart, action),
+});
+
+const ProductContextProvider = ({ children }: { children: JSX.Element }) => {
+  const [state, dispatch] = useReducer(mainReducer, initialState);
 
   return (
-    <ProductContext.Provider value={{ ...state, addProduct }}>
+    <ProductContext.Provider value={{ state, dispatch }}>
       {children}
     </ProductContext.Provider>
   );
 };
+
+export { ProductContextProvider, ProductContext };
