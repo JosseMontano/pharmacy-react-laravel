@@ -6,20 +6,23 @@ import Login from "./pages/login";
 import IndexUser from "./pages/formproducts";
 import Shopping from "./pages/shopping";
 import { ProductContextProvider } from "./context/products/productContext";
+import { UserContextProvider } from "./context/userContext";
 function App() {
   return (
     <>
-      <ProductContextProvider>
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/products" element={<IndexUser />} />
-            <Route path="/shopping" element={<Shopping />} />
-          </Routes>
-        </HashRouter>
-      </ProductContextProvider>
+      <UserContextProvider>
+        <ProductContextProvider>
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/products" element={<IndexUser />} />
+              <Route path="/shopping" element={<Shopping />} />
+            </Routes>
+          </HashRouter>
+        </ProductContextProvider>
+      </UserContextProvider>
     </>
   );
 }

@@ -14,11 +14,20 @@ class SanctumAuthController extends Controller
     {
         //validacion
         $request->validate([
-            'password_user' => 'required|confirmed',
-            'name_person' => 'required',
-            'last_name_person' => 'required',
-            'ci_person' => 'required',
+                'password_user' => 'required|confirmed',
+                'name_person' => 'required',
+                'last_name_person' => 'required',
+                'ci_person' => 'required',
         ]);
+
+      $usuario = $request->ci_person . $request->name_person;
+          $getUser = DB::select("select * from usuario where name_user = '$usuario'");
+ 
+        if(count($getUser)>0){
+            return response()->json(["mensaje" => "usuario ya existe"], 500);
+        }
+
+   
         //guardar en la tabla persona
         $peronainsertada = DB::table('people')
             ->insert([
@@ -34,13 +43,12 @@ class SanctumAuthController extends Controller
             ->first();
 
         //insertar datos a ususario
-        $usuario = $request->ci_person . $request->name_person;
         $usuario = DB::table('usuario')
             ->insert(
                 [
                     'name_user' => $usuario,
                     'password_user' => Hash::make($request->password_user),
-                    'id_role' => 1,
+                    'id_role' => 2,
                     'id_person' => $Idpeople->id_person,
                 ]
             );

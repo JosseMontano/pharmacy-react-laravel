@@ -26,7 +26,7 @@ export const registerServices = async (data: RegisterModel) => {
     return false
 
   } catch (err) {
-    console.log(err) ;
+    console.log(err);
   }
 };
 
@@ -41,19 +41,19 @@ export const loginServices = async (data: LoginModel) => {
       },
       body: JSON.stringify({
         password_user: data.password_user,
-        name_user: data.name_user, 
+        name_user: data.name_user,
       }),
     });
     if (response.ok) {
       const result = await response.json();
-      document.cookie = `jwt=${result.acess_token}; max-age=${60*60*24}; path=/; samesite=stric` 
-      if(result.acess_token != null){
-        return true;
+      document.cookie = `jwt=${result.acess_token}; max-age=${60 * 60 * 24}; path=/; samesite=stric`
+      if (result.acess_token != null) {
+        return { action: true, result }
       }
     }
 
-    return false
+    return { action: false, result: null }
   } catch (err) {
-    console.log(err) ;
+    return { action: false, result: null }
   }
 };

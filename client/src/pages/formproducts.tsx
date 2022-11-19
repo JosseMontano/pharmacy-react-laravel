@@ -1,14 +1,21 @@
-import { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../context/products/productContext";
-import ProductType from "../interfaces/product";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ShowProducts from "./showProducts";
-import Form from "../styles/form";
+import { ProductContext } from "../context/products/productContext";
+import { useUser } from "../context/userContext";
+import ProductType from "../interfaces/product";
 import { addProduct } from "../services/product";
+import Form from "../styles/form";
+import ShowProducts from "./showProducts";
+
+enum roleEnum {
+  Funcionario = 1,
+  Cliente = 2,
+}
 
 const IndexUser = () => {
   const { state, dispatch } = useContext(ProductContext);
   const [form, setForm] = useState({} as ProductType);
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const handleForm = (type: string, value: string) => {
@@ -24,8 +31,8 @@ const IndexUser = () => {
     if (res) alert("se guardo de forma correcta");
   };
 
-  return (
-    <>
+  const showForm = () => {
+    return (
       <Form onSubmit={(e) => handleSubmit(e)}>
         <form>
           <h2>Guardar datos</h2>
@@ -63,6 +70,12 @@ const IndexUser = () => {
           <button onClick={(e) => handleSubmit(e)}>Guardar datos</button>
         </form>
       </Form>
+    );
+  };
+
+  return (
+    <>
+      {user.id_role == roleEnum.Funcionario && showForm()}
 
       <ShowProducts />
 
@@ -71,7 +84,7 @@ const IndexUser = () => {
           navigate("/shopping");
         }}
       >
-        Carrito
+        Ver Carrito
       </button>
     </>
   );

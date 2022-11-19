@@ -49,6 +49,7 @@ const Shopping = () => {
             handleForm("name_product", e.target.value);
           }}
           value={form.name_product}
+          disabled
         />
         <label htmlFor="">Descripcion</label>
         <textarea
@@ -56,6 +57,7 @@ const Shopping = () => {
             handleForm("description_product", e.target.value);
           }}
           value={form.description_product}
+          disabled
         ></textarea>
         <label htmlFor="">Precio</label>
         <input
@@ -64,6 +66,7 @@ const Shopping = () => {
             handleForm("price_product", e.target.value);
           }}
           value={form.price_product}
+          disabled
         />
         <label htmlFor="">Cantidad</label>
         <input
@@ -76,11 +79,12 @@ const Shopping = () => {
         <button onClick={(e) => editProduct(e)}>Guardar datos</button>
         {state.shoppingCart}
       </form>
+
       <h2>Carrito</h2>
       {state.products.map((v, i) => (
         <div key={i}>
-          <p>{v.id_product}</p>
-          <p>{v.description_product}</p>
+          <p>Nombre: {v.name_product}</p>
+          <p>Cantidad: {v.amount_product}</p>
           <button
             onClick={() => {
               dispatch({

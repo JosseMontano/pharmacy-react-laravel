@@ -1,7 +1,7 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ContentHome, H3, P, Btn } from "../../styles/welcome";
 import { lightColor } from "../../styles/globals";
+import { Btn, ContentHome, H3, P } from "../../styles/welcome";
 const Container = styled.section`
   display: flex;
   align-items: center;
@@ -10,6 +10,11 @@ const Container = styled.section`
   padding-top: 10rem;
 `;
 const Index = () => {
+  let navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/login");
+  };
+
   return (
     <Container>
       <ContentHome>
@@ -22,9 +27,13 @@ const Index = () => {
           Magnam, est laboriosam! Lorem ipsum dolor sit amet consectetur
           adipisicing elit. Rem sed autem vero? Magnam, est laboriosam!
         </P>
-        <Btn href="#">
+        <Btn
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
           {" "}
-          contactanos <span></span>
+          Inicia sesion <span></span>
         </Btn>
       </ContentHome>
     </Container>

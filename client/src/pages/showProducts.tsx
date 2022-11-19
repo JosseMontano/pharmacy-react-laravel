@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductContext } from "../context/products/productContext";
 import { Types } from "../context/products/productReducer";
+import { useUser } from "../context/userContext";
 import IProduct from "../interfaces/product";
 import { getProduct, deleteProduct } from "../services/product";
 
@@ -17,9 +18,16 @@ const Card = styled.div`
   width: 300px;
 `;
 
+enum roleEnum {
+  Funcionario = 1,
+  Cliente = 2,
+}
+
 const ShowProducts = () => {
   const { state, dispatch } = useContext(ProductContext);
   const [data, setData] = useState<IProduct[]>([]);
+  const { user } = useUser();
+
   const getData = async () => {
     const res = await getProduct();
     setData(res);
@@ -31,6 +39,7 @@ const ShowProducts = () => {
   };
 
   const handleAddShopp = (v: IProduct) => {
+    v.amount_product = 1;
     dispatch({
       type: Types.Add,
       payload: {
@@ -43,6 +52,10 @@ const ShowProducts = () => {
     getData();
   }, []);
 
+  function showDelProduct(id: number) {
+    return <button onClick={() => handleClick(id)}>Eliminar</button>;
+  }
+
   return (
     <Container>
       {data.map((v, i) => (
@@ -51,8 +64,10 @@ const ShowProducts = () => {
           <p>{v.description_product}</p>
           <span>{v.price_product}$</span>
           <p>{v.amount_product}</p>
-          <button onClick={() => handleClick(v.id_product)}>Eliminar</button>
+
           <button onClick={() => handleAddShopp(v)}>Añadir carrito</button>
+
+          {user.id_role == roleEnum.Funcionario && showDelProduct(v.id_product)}
         </Card>
       ))}
     </Container>

@@ -13,16 +13,20 @@ import {
   Btn,
 } from "../styles/register";
 
+import { useUser } from "../context/userContext";
+
 function Login() {
   const navigate = useNavigate();
   const [namePerson, setNamePerson] = useState("");
   const [password, setPassword] = useState("");
+  const { getUser } = useUser();
   const store = async () => {
-    const res = await loginServices({
+    const { action, result } = await loginServices({
       name_user: namePerson,
       password_user: password,
     });
-    if (res) {
+    getUser(result.id_role, result.name_user);
+    if (action) {
       alert("usuario logeado");
       navigate("/products");
       return;
