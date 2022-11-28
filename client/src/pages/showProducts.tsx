@@ -18,6 +18,21 @@ const Card = styled.div`
   width: 300px;
 `;
 
+const Btn = styled.button<{ color: string }>`
+  background-color: ${(props) => props.color};
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 enum roleEnum {
   Funcionario = 1,
   Cliente = 2,
@@ -53,7 +68,11 @@ const ShowProducts = () => {
   }, []);
 
   function showDelProduct(id: number) {
-    return <button onClick={() => handleClick(id)}>Eliminar</button>;
+    return (
+      <Btn color={"#af4c4c"} onClick={() => handleClick(id)}>
+        Eliminar
+      </Btn>
+    );
   }
 
   return (
@@ -65,7 +84,11 @@ const ShowProducts = () => {
           <span>{v.price_product}$</span>
           <p>{v.amount_product}</p>
 
-          <button onClick={() => handleAddShopp(v)}>Añadir carrito</button>
+          {roleEnum.Cliente == user.id_role && (
+            <Btn color={"#4c98af"} onClick={() => handleAddShopp(v)}>
+              Añadir carrito
+            </Btn>
+          )}
 
           {user.id_role == roleEnum.Funcionario && showDelProduct(v.id_product)}
         </Card>

@@ -6,7 +6,7 @@ import ProductType from "../interfaces/product";
 import { addProduct } from "../services/product";
 import Form from "../styles/form";
 import ShowProducts from "./showProducts";
-
+import Navbar from "../components/navbar/index";
 enum roleEnum {
   Funcionario = 1,
   Cliente = 2,
@@ -75,17 +75,20 @@ const IndexUser = () => {
 
   return (
     <>
+      <Navbar />
       {user.id_role == roleEnum.Funcionario && showForm()}
 
       <ShowProducts />
 
-      <button
-        onClick={() => {
-          navigate("/shopping");
-        }}
-      >
-        Ver Carrito
-      </button>
+      {user.id_role == roleEnum.Cliente && (
+        <button
+          onClick={() => {
+            navigate("/shopping");
+          }}
+        >
+          Ver Carrito
+        </button>
+      )}
     </>
   );
 };
