@@ -59,6 +59,7 @@ const ShowProducts = () => {
       type: Types.Add,
       payload: {
         product: v,
+        id_product: v.id_product,
       },
     });
   };

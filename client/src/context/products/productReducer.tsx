@@ -29,6 +29,7 @@ type ProductPayload = {
   };
   [Types.Add]: {
     product: ProductType;
+    id_product: number;
   };
   [Types.Edit]: {
     id_product: number;
@@ -48,7 +49,17 @@ export const productReducer = (
 ) => {
   switch (action.type) {
     case Types.Add:
-      return [...state, action.payload.product];
+      const { id_product, product } = action.payload;
+      const foundShoup = state.find((shopp) => shopp.id_product === id_product);
+      if (foundShoup) {
+        action.payload.product.amount_product = foundShoup.amount_product + 1;
+        return [
+          ...state.filter((v) => v.id_product !== id_product),
+          action.payload.product,
+        ];
+      } else {
+        return [...state, action.payload.product];
+      }
 
     case Types.Delete:
       return [
