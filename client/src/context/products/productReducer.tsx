@@ -52,7 +52,7 @@ export const productReducer = (
       const { id_product, product } = action.payload;
       const foundShoup = state.find((shopp) => shopp.id_product === id_product);
       if (foundShoup) {
-        action.payload.product.amount_product = foundShoup.amount_product + 1;
+        action.payload.product.amount_product = parseFloat(foundShoup.amount_product.toString()) + 1;
         return [
           ...state.filter((v) => v.id_product !== id_product),
           action.payload.product,
